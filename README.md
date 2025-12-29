@@ -9,6 +9,10 @@ Open WebUI is a powerful, beautifully designed AI tool that allows for extensive
 
 ![alt text](img/image.png)
 
+
+https://github.com/user-attachments/assets/6208bbff-5e90-4bd4-8eae-a10b0a07bb14
+
+
 ## Features
 
 - **Side Panel Integration:** Access your Open WebUI instance without leaving your current tab.
