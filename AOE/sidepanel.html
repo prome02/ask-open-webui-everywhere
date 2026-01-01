@@ -25,23 +25,24 @@
       overflow: hidden;
     }
 
-    /* Header */
-    .header {
+    /* Header + Toolbar Combined */
+    .header-toolbar {
       padding: 12px 16px;
       display: flex;
       align-items: center;
       justify-content: space-between;
       background: var(--header-bg);
       border-bottom: 1px solid rgba(255,255,255,0.05);
+      gap: 16px;
     }
 
     .brand {
       display: flex;
       align-items: center;
       gap: 10px;
+      flex-shrink: 0;
     }
 
- 
     .brand-info {
       display: flex;
       flex-direction: column;
@@ -67,13 +68,12 @@
       line-height: 1.2;
     }
 
-  
     .brand-subtitle {
       font-size: 9px;
       color: var(--text-muted);
       font-weight: 400;
       letter-spacing: 0.2px;
-      white-space: nowrap; 
+      white-space: nowrap;
     }
 
     .status-tag {
@@ -86,6 +86,7 @@
       display: flex;
       align-items: center;
       gap: 4px;
+      flex-shrink: 0;
     }
 
     .status-dot {
@@ -102,30 +103,24 @@
       100% { opacity: 1; }
     }
 
- 
-    .toolbar { 
-      padding: 12px 14px; 
-      display: flex; 
-      gap: 10px; 
-      background: var(--toolbar-bg); 
-      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-      z-index: 10;
+    .toolbar-buttons {
+      display: flex;
+      gap: 8px;
+      flex-shrink: 0;
     }
 
     .btn {
-      flex: 1;
-      height: 38px;
+      width: 36px;
+      height: 36px;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 6px;
       cursor: pointer;
       border: none;
       border-radius: 8px;
-      font-size: 12px;
-      font-weight: 600;
       transition: all 0.2s;
       color: white;
+      padding: 0;
     }
 
     #refreshBtn { background: #475569; }
@@ -133,18 +128,18 @@
 
     #pasteBtn { background: var(--accent-gradient); }
     #pasteBtn:hover { filter: brightness(1.1); transform: translateY(-1px); }
-    #screenBtn { background: var(--accent-gradient); } 
+    #screenBtn { background: var(--accent-gradient); }
     #screenBtn:hover { filter: brightness(1.1); transform: translateY(-1px); }
 
-    .icon { width: 14px; height: 14px; fill: currentColor; }
+    .icon { width: 16px; height: 16px; fill: currentColor; }
 
     iframe { flex: 1; border: none; background: white; }
   </style>
 </head>
 <body>
 
-  <!-- Header Section -->
-  <div class="header">
+  <!-- Header + Toolbar Combined -->
+  <div class="header-toolbar">
     <div class="brand">
       <div class="brand-icon">
         <svg style="width:14px; height:14px; fill:white" viewBox="0 0 24 24">
@@ -156,29 +151,25 @@
         <div class="brand-subtitle">Conversations powered by Open WebUI</div>
       </div>
     </div>
+    
+    <div class="toolbar-buttons">
+      <button id="refreshBtn" class="btn" title="Refresh">
+        <svg class="icon" viewBox="0 0 24 24"><path d="M17.65 6.35A7.958 7.958 0 0012 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08A5.99 5.99 0 0112 18c-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/></svg>
+      </button>
+    
+      <button id="screenBtn" class="btn" title="Insert Screen">
+        <svg class="icon" viewBox="0 0 24 24"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>
+      </button>
+   
+      <button id="pasteBtn" class="btn" title="Insert Text">
+        <svg class="icon" viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
+      </button>
+    </div>
+    
     <div class="status-tag">
       <div class="status-dot"></div>
       Ready
     </div>
-  </div>
-
-  <!-- Toolbar Section -->
-  <div class="toolbar">
-    <button id="refreshBtn" class="btn">
-      <svg class="icon" viewBox="0 0 24 24"><path d="M17.65 6.35A7.958 7.958 0 0012 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08A5.99 5.99 0 0112 18c-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/></svg>
-      Refresh
-    </button>
-  
-    <button id="screenBtn" class="btn">
-      <svg class="icon" viewBox="0 0 24 24"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>
-      Insert Screen
-    </button>
- 
-    <button id="pasteBtn" class="btn">
-      <svg class="icon" viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
-      Insert Text
-    </button>
-
   </div>
 
   <iframe id="targetFrame" src="about:blank"></iframe>
