@@ -58,3 +58,5 @@ jspm_packages/
 # Temporary folders
 tmp/
 temp/
+.roo/
+.qodo/

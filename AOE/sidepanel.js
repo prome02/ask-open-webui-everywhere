@@ -97,6 +97,7 @@ pasteBtn.addEventListener('click', async () => {
   // Send to the iframe inside the sidebar
 
   webview.contentWindow.postMessage({ type: 'EXECUTE_PASTE',contentType: 'text', data: extractedText }, '*');
+  
 });
 
 // 2. Insert Screen
