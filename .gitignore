@@ -55,8 +55,12 @@ jspm_packages/
 .env.test.local
 .env.production.local
 
+# Build output
+build/
+
 # Temporary folders
 tmp/
 temp/
+temp_openwebui/
 .roo/
 .qodo/
