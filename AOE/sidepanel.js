@@ -2,6 +2,7 @@ const webview = document.getElementById('targetFrame');
 const refreshBtn = document.getElementById('refreshBtn');
 const screenBtn = document.getElementById('screenBtn');
 const pasteBtn = document.getElementById('pasteBtn');
+const summaryBtn = document.getElementById('summaryBtn');
 const statusTag = document.querySelector('.status-tag');
 const statusDot = document.querySelector('.status-dot');
 
@@ -287,9 +288,10 @@ refreshBtn.addEventListener('click', () => {
   reloadIframe();
 });
 
-pasteBtn.addEventListener('click', async () => {
+// Refactored text extraction function
+async function getPageText() {
   const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
-  if (!tab) return;
+  if (!tab) return "";
 
   const results = await chrome.scripting.executeScript({
     target: { tabId: tab.id },
@@ -298,7 +300,6 @@ pasteBtn.addEventListener('click', async () => {
         'SCRIPT', 'STYLE', 'NOSCRIPT', 'IFRAME', 'CANVAS', 'SVG',
         'HEADER', 'FOOTER', 'NAV', 'TEXTAREA', 'SELECT', 'APPLET', 'MAP'
       ];
-      const indentSymbol = "\t"; // Indentation symbol, can be changed to "\t" or "    "
 
       // 2. Function to check if an element is visible
       const isVisible = (el) => {
@@ -355,11 +356,20 @@ pasteBtn.addEventListener('click', async () => {
     }
   });
 
-  const extractedText = results[0].result;
-  // Send to the iframe inside the sidebar
+  return results[0].result;
+}
 
+pasteBtn.addEventListener('click', async () => {
+  const extractedText = await getPageText();
+  // Send to the iframe inside the sidebar
   webview.contentWindow.postMessage({ type: 'EXECUTE_PASTE',contentType: 'text', data: extractedText }, '*');
-  
+});
+
+summaryBtn.addEventListener('click', async () => {
+  const extractedText = await getPageText();
+  const summaryPrompt = "請用繁體中文總結以下內容，並列出三個重點：\n\n" + extractedText;
+  // Send to the iframe inside the sidebar
+  webview.contentWindow.postMessage({ type: 'EXECUTE_PASTE', contentType: 'text', data: summaryPrompt }, '*');
 });
 
 // 2. Insert Screen
