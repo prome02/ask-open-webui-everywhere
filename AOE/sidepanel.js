@@ -303,13 +303,13 @@ async function getPageText() {
 
       // 2. Function to check if an element is visible
       const isVisible = (el) => {
-        if (!el || el.nodeType !== Node.ELEMENT_NODE) return true;
         const style = window.getComputedStyle(el);
-        return style.display !== 'none' &&
-               style.visibility !== 'hidden' &&
-               style.opacity !== '0' &&
-               el.offsetWidth > 0 &&
-               el.offsetHeight > 0;
+        // css style
+        if (style.display === 'none' || style.visibility === 'hidden' || style.opacity === '0') {
+        return false;
+    }
+        // true region
+        return el.getClientRects().length > 0;
       };
 
       // Recursive processing function
